@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Catipizza - Pizzas caseras, abundantes y bien cargadas. Delivery sin cargo. Pedí por WhatsApp." />
+  <title>CATIPIZZA 🍕</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =============================================
+       VARIABLES DE COLOR - PALETA CATIPIZZA
+    ============================================= */
+    :root {
+      --naranja-brillante: #FF9900;
+      --naranja-quemado:   #F25C05;
+      --negro-puro:        #000000;
+      --gris-oscuro:       #1A1A1A;
+      --blanco:            #FFFFFF;
+      --gris-claro:        #E0E0E0;
+      --whatsapp-verde:    #25D366;
+      --font-titulo:       'Bebas Neue', sans-serif;
+      --font-cuerpo:       'Open Sans', sans-serif;
+    }
+
+    /* =============================================
+       RESET Y BASE
+    ============================================= */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-cuerpo);
+      background-color: var(--negro-puro);
+      color: var(--blanco);
+      overflow-x: hidden;
+    }
+
+    img { display: block; max-width: 100%; }
+    a   { text-decoration: none; color: inherit; }
+
+    /* =============================================
+       HEADER
+    ============================================= */
+    #header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: var(--gris-oscuro);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      height: 62px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.6);
+    }
+
+    /* Logo */
+    .header-logo {
+      font-family: var(--font-titulo);
+      font-size: 2rem;
+      letter-spacing: 3px;
+      color: var(--naranja-brillante);
+      line-height: 1;
+    }
+    .header-logo span {
+      color: var(--blanco);
+    }
+
+    /* Íconos derecha */
+    .header-icons {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .header-icons a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      transition: background 0.2s;
+    }
+    .header-icons a:hover { background: var(--naranja-quemado); }
+
+    .header-icons svg { width: 22px; height: 22px; }
+
+    /* Menú hamburguesa (solo visual en mobile) */
+    .hamburger {
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 3px;
+      background: var(--blanco);
+      border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+    /* Nav móvil desplegable */
+    #nav-mobile {
+      display: none;
+      position: fixed;
+      top: 62px; left: 0; right: 0;
+      background: var(--gris-oscuro);
+      z-index: 99;
+      padding: 0;
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.35s ease, padding 0.3s;
+    }
+    #nav-mobile.open {
+      max-height: 300px;
+      padding: 12px 0;
+    }
+    #nav-mobile a {
+      display: block;
+      padding: 14px 28px;
+      font-family: var(--font-titulo);
+      font-size: 1.4rem;
+      letter-spacing: 2px;
+      color: var(--gris-claro);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: color 0.2s, background 0.2s;
+    }
+    #nav-mobile a:hover { color: var(--naranja-brillante); background: rgba(255,153,0,0.07); }
+
+    /* =============================================
+       HERO SECTION
+    ============================================= */
+    #hero {
+      min-height: 100svh;
+      background: var(--naranja-brillante);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 90px 24px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Fondo decorativo con círculos */
+    #hero::before {
+      content: '';
+      position: absolute;
+      width: 420px; height: 420px;
+      border-radius: 50%;
+      background: rgba(242,92,5,0.25);
+      top: -80px; right: -100px;
+    }
+    #hero::after {
+      content: '';
+      position: absolute;
+      width: 260px; height: 260px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.10);
+      bottom: 40px; left: -60px;
+    }
+
+    /* Personaje pizza */
+    .hero-personaje {
+      width: min(260px, 65vw);
+      height: min(260px, 65vw);
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid var(--negro-puro);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 1;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    /* Emoji placeholder si no hay imagen */
+    .hero-emoji-placeholder {
+      font-size: min(140px, 35vw);
+      line-height: 1;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+      animation: float 3s ease-in-out infinite;
+      filter: drop-shadow(0 8px 16px rgba(0,0,0,0.3));
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-14px); }
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--negro-puro);
+      color: var(--naranja-brillante);
+      font-family: var(--font-titulo);
+      font-size: 0.85rem;
+      letter-spacing: 3px;
+      padding: 6px 18px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-titulo {
+      font-family: var(--font-titulo);
+      font-size: clamp(2.6rem, 10vw, 5rem);
+      line-height: 0.95;
+      color: var(--negro-puro);
+      letter-spacing: 2px;
+      position: relative;
+      z-index: 1;
+      text-shadow: 3px 3px 0 rgba(255,255,255,0.15);
+    }
+    .hero-titulo .highlight { color: var(--blanco); }
+
+    .hero-subtitulo {
+      font-size: clamp(0.9rem, 3.5vw, 1.15rem);
+      color: var(--negro-puro);
+      opacity: 0.82;
+      margin-top: 12px;
+      max-width: 340px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 28px;
+      background: var(--negro-puro);
+      color: var(--naranja-brillante);
+      font-family: var(--font-titulo);
+      font-size: 1.35rem;
+      letter-spacing: 2px;
+      padding: 16px 36px;
+      border-radius: 6px;
+      border: 3px solid var(--negro-puro);
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, transform 0.15s;
+      position: relative;
+      z-index: 1;
+      box-shadow: 4px 4px 0 rgba(0,0,0,0.35);
+    }
+    .hero-cta:hover {
+      background: var(--whatsapp-verde);
+      color: var(--blanco);
+      border-color: var(--whatsapp-verde);
+      transform: translateY(-2px);
+    }
+    .hero-cta svg { width: 26px; height: 26px; }
+
+    /* =============================================
+       SECCIÓN MENÚ / CARTA
+    ============================================= */
+    #menu {
+      background: var(--negro-puro);
+      padding: 64px 20px 80px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .section-header h2 {
+      font-family: var(--font-titulo);
+      font-size: clamp(2.4rem, 8vw, 3.8rem);
+      color: var(--naranja-quemado);
+      letter-spacing: 3px;
+      line-height: 1;
+    }
+    .section-header p {
+      color: var(--gris-claro);
+      font-size: 0.95rem;
+      margin-top: 6px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .section-divider {
+      width: 60px; height: 4px;
+      background: var(--naranja-brillante);
+      margin: 14px auto 0;
+      border-radius: 2px;
+    }
+
+    /* Grid de pizzas */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    @media (min-width: 540px) {
+      .menu-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (min-width: 900px) {
+      .menu-grid { grid-template-columns: 1fr 1fr 1fr; max-width: 960px; }
+    }
+
+    /* Tarjeta de pizza */
+    .pizza-card {
+      background: var(--gris-oscuro);
+      border-radius: 10px;
+      padding: 18px 18px 16px;
+      border: 1px solid rgba(255,153,0,0.12);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+      cursor: default;
+    }
+    .pizza-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px; height: 100%;
+      background: var(--naranja-quemado);
+      border-radius: 10px 0 0 10px;
+    }
+    .pizza-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255,153,0,0.4);
+      box-shadow: 0 8px 24px rgba(255,153,0,0.12);
+    }
+
+    .pizza-nombre {
+      font-family: var(--font-titulo);
+      font-size: 1.4rem;
+      letter-spacing: 2px;
+      color: var(--blanco);
+      margin-bottom: 6px;
+    }
+    .pizza-precio {
+      font-family: var(--font-titulo);
+      font-size: 1.6rem;
+      color: var(--naranja-quemado);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+    .pizza-ingredientes {
+      font-size: 0.82rem;
+      color: var(--gris-claro);
+      line-height: 1.5;
+    }
+
+    /* Nota al pie del menú */
+    .menu-nota {
+      text-align: center;
+      margin-top: 32px;
+      background: rgba(242,92,5,0.12);
+      border: 1px dashed var(--naranja-quemado);
+      border-radius: 8px;
+      padding: 16px 24px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .menu-nota p {
+      font-family: var(--font-titulo);
+      font-size: 1.1rem;
+      color: var(--naranja-brillante);
+      letter-spacing: 1.5px;
+    }
+
+    /* Botón pedir desde el menú */
+    .menu-cta {
+      display: flex;
+      justify-content: center;
+      margin-top: 36px;
+    }
+    .menu-cta a {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--whatsapp-verde);
+      color: var(--blanco);
+      font-family: var(--font-titulo);
+      font-size: 1.25rem;
+      letter-spacing: 2px;
+      padding: 15px 34px;
+      border-radius: 6px;
+      box-shadow: 0 4px 18px rgba(37,211,102,0.3);
+      transition: transform 0.15s, box-shadow 0.2s;
+    }
+    .menu-cta a:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(37,211,102,0.45);
+    }
+    .menu-cta svg { width: 24px; height: 24px; }
+
+    /* =============================================
+       SECCIÓN DELIVERY
+    ============================================= */
+    #delivery {
+      background: var(--naranja-quemado);
+      padding: 40px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    #delivery::before {
+      content: '';
+      position: absolute;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.08);
+      top: -120px; right: -80px;
+    }
+
+    .delivery-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .delivery-icon {
+      font-size: 64px;
+      animation: scooter 2.5s ease-in-out infinite;
+    }
+    @keyframes scooter {
+      0%,100% { transform: translateX(0) rotate(-3deg); }
+      50%      { transform: translateX(8px) rotate(3deg); }
+    }
+
+    .delivery-img {
+      width: min(120px, 30vw);
+      animation: scooter 2.5s ease-in-out infinite;
+    }
+
+    .delivery-texto h3 {
+      font-family: var(--font-titulo);
+      font-size: clamp(2rem, 7vw, 3.2rem);
+      color: var(--negro-puro);
+      letter-spacing: 3px;
+      line-height: 1;
+    }
+    .delivery-texto p {
+      font-size: 0.95rem;
+      color: var(--negro-puro);
+      opacity: 0.75;
+      margin-top: 4px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* =============================================
+       FOOTER
+    ============================================= */
+    #footer {
+      background: var(--gris-oscuro);
+      padding: 48px 24px 32px;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: var(--font-titulo);
+      font-size: 2.4rem;
+      letter-spacing: 4px;
+      color: var(--naranja-brillante);
+      margin-bottom: 20px;
+    }
+
+    .footer-contacto {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .footer-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1rem;
+      color: var(--gris-claro);
+    }
+    .footer-item svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .footer-item a { color: var(--naranja-brillante); transition: color 0.2s; }
+    .footer-item a:hover { color: var(--blanco); }
+
+    .footer-social {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .footer-social a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      border-radius: 6px;
+      font-family: var(--font-titulo);
+      font-size: 1rem;
+      letter-spacing: 1.5px;
+      transition: transform 0.15s, box-shadow 0.2s;
+    }
+    .footer-social a:hover { transform: translateY(-2px); }
+    .footer-social a svg { width: 20px; height: 20px; }
+
+    .btn-wa-footer {
+      background: var(--whatsapp-verde);
+      color: var(--blanco);
+      box-shadow: 0 4px 14px rgba(37,211,102,0.25);
+    }
+    .btn-ig-footer {
+      background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+      color: var(--blanco);
+      box-shadow: 0 4px 14px rgba(253,29,29,0.25);
+    }
+
+    .footer-copy {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.25);
+      margin-top: 8px;
+    }
+
+    /* =============================================
+       BOTÓN FLOTANTE WHATSAPP
+    ============================================= */
+    #fab-whatsapp {
+      position: fixed;
+      bottom: 24px;
+      right: 20px;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--whatsapp-verde);
+      color: var(--blanco);
+      font-family: var(--font-titulo);
+      font-size: 1.05rem;
+      letter-spacing: 1.5px;
+      padding: 13px 22px;
+      border-radius: 999px;
+      box-shadow: 0 6px 24px rgba(37,211,102,0.5);
+      cursor: pointer;
+      text-decoration: none;
+      border: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+    #fab-whatsapp:hover {
+      transform: scale(1.06) translateY(-2px);
+      box-shadow: 0 10px 30px rgba(37,211,102,0.6);
+      animation: none;
+    }
+    #fab-whatsapp svg { width: 24px; height: 24px; }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 6px 24px rgba(37,211,102,0.5); }
+      50%      { box-shadow: 0 6px 36px rgba(37,211,102,0.8); }
+    }
+
+    /* =============================================
+       RESPONSIVE HELPERS
+    ============================================= */
+    @media (min-width: 640px) {
+      #nav-mobile { display: none !important; } /* siempre oculto en desktop */
+      .delivery-inner { flex-direction: row; justify-content: center; gap: 28px; }
+      .footer-contacto { flex-direction: row; justify-content: center; }
+    }
+
+    /* Mostrar nav solo en mobile */
+    @media (max-width: 639px) {
+      #nav-mobile { display: block; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================
+       HEADER
+  ========================================== -->
+  <header id="header">
+    <div class="header-logo">CATI<span>PIZZA</span></div>
+
+    <div class="header-icons">
+      <!-- Instagram -->
+      <a href="https://www.instagram.com/catipizza_ok/" target="_blank" rel="noopener" aria-label="Instagram de Catipizza">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#FF9900" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r="0.8" fill="#FF9900" stroke="none"/>
+        </svg>
+      </a>
+
+      <!-- WhatsApp -->
+      <a href="https://wa.link/7zj1ar" target="_blank" rel="noopener" aria-label="WhatsApp de Catipizza">
+        <svg viewBox="0 0 24 24" fill="#25D366">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+          <path d="M12 0C5.373 0 0 5.373 0 12c0 2.121.554 4.112 1.523 5.837L.057 23.571l5.888-1.544A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 01-5.003-1.367l-.36-.213-3.495.917.933-3.41-.235-.373A9.797 9.797 0 012.182 12C2.182 6.565 6.565 2.182 12 2.182c5.434 0 9.818 4.383 9.818 9.818 0 5.434-4.384 9.818-9.818 9.818z"/>
+        </svg>
+      </a>
+
+      <!-- Hamburger (mobile) -->
+      <button class="hamburger" id="hamburger" aria-label="Menú de navegación">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Nav móvil -->
+  <nav id="nav-mobile">
+    <a href="#hero"     onclick="closeNav()">🏠 Inicio</a>
+    <a href="#menu"     onclick="closeNav()">🍕 Carta</a>
+    <a href="#delivery" onclick="closeNav()">🛵 Delivery</a>
+    <a href="#footer"   onclick="closeNav()">📞 Contacto</a>
+  </nav>
+
+  <!-- ==========================================
+       HERO
+  ========================================== -->
+  <section id="hero">
+    <span class="hero-badge">✅ YA ESTAMOS TRABAJANDO</span>
+
+    <!-- Personaje: si no hay imagen, muestra emoji -->
+    <img
+      class="hero-personaje"
+      src="/assets/img/personaje-pizza.png"
+      alt="Personaje Catipizza con lentes"
+      onerror="this.style.display='none'; document.getElementById('hero-emoji').style.display='block';"
+    />
+    <div class="hero-emoji-placeholder" id="hero-emoji" style="display:none;">🍕</div>
+
+    <h1 class="hero-titulo">
+      PIZZAS<br>
+      <span class="highlight">CASERAS</span>
+    </h1>
+    <p class="hero-subtitulo">ABUNDANTES Y BIEN CARGADAS</p>
+
+    <a class="hero-cta" href="https://wa.link/7zj1ar" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+        <path d="M12 0C5.373 0 0 5.373 0 12c0 2.121.554 4.112 1.523 5.837L.057 23.571l5.888-1.544A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 01-5.003-1.367l-.36-.213-3.495.917.933-3.41-.235-.373A9.797 9.797 0 012.182 12C2.182 6.565 6.565 2.182 12 2.182c5.434 0 9.818 4.383 9.818 9.818 0 5.434-4.384 9.818-9.818 9.818z"/>
+      </svg>
+      ¡PEDÍ AHORA!
+    </a>
+  </section>
+
+  <!-- ==========================================
+       MENÚ / CARTA
+  ========================================== -->
+  <section id="menu">
+    <div class="section-header">
+      <h2>NUESTRA CARTA</h2>
+      <p>Pizzas Caseras</p>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="menu-grid">
+
+      <!-- COMÚN -->
+      <div class="pizza-card">
+        <div class="pizza-nombre">COMÚN</div>
+        <div class="pizza-precio">$6.500</div>
+        <div class="pizza-ingredientes">Queso, salsa, aceitunas y orégano.</div>
+      </div>
+
+      <!-- C/HUEVO -->
+      <div class="pizza-card">
+        <div class="pizza-nombre">C/HUEVO</div>
+        <div class="pizza-precio">$7.000</div>
+        <div class="pizza-ingredientes">Queso, salsa, huevo rallado, aceitunas y orégano.</div>
+      </div>
+
+      <!-- ESPECIAL -->
+      <div class="pizza-card">
+        <div class="pizza-nombre">ESPECIAL</div>
+        <div class="pizza-precio">$7.000</div>
+        <div class="pizza-ingredientes">Queso, salsa, paleta, aceitunas, morrón y orégano.</div>
+      </div>
+
+      <!-- NAPOLITANA -->
+      <div class="pizza-card">
+        <div class="pizza-nombre">NAPOLITANA</div>
+        <div class="pizza-precio">$7.000</div>
+        <div class="pizza-ingredientes">Queso, salsa, tomates, aceitunas y orégano.</div>
+      </div>
+
+      <!-- FUGAZZETA -->
+      <div class="pizza-card">
+        <div class="pizza-nombre">FUGAZZETA</div>
+        <div class="pizza-precio">$7.000</div>
+        <div class="pizza-ingredientes">Queso, salsa, cebolla, aceitunas y orégano.</div>
+      </div>
+
+      <!-- C/CHOCLO -->
+      <div class="pizza-card">
+        <div class="pizza-nombre">C/CHOCLO</div>
+        <div class="pizza-precio">$7.500</div>
+        <div class="pizza-ingredientes">Queso, salsa, choclo, aceitunas y orégano.</div>
+      </div>
+
+      <!-- CALABREZA -->
+      <div class="pizza-card">
+        <div class="pizza-nombre">CALABREZA</div>
+        <div class="pizza-precio">$7.500</div>
+        <div class="pizza-ingredientes">Queso, salsa, cantimpalo, aceitunas y orégano.</div>
+      </div>
+
+      <!-- A CABALLO -->
+      <div class="pizza-card">
+        <div class="pizza-nombre">A CABALLO</div>
+        <div class="pizza-precio">$8.500</div>
+        <div class="pizza-ingredientes">Queso, salsa, papas fritas, 4 huevos, aceitunas y orégano.</div>
+      </div>
+
+      <!-- SALCHIPIZZA -->
+      <div class="pizza-card">
+        <div class="pizza-nombre">SALCHIPIZZA</div>
+        <div class="pizza-precio">$9.000</div>
+        <div class="pizza-ingredientes">Queso, salsa, papas fritas, salchichas, aceitunas y orégano.</div>
+      </div>
+
+    </div><!-- /menu-grid -->
+
+    <!-- Nota al pie -->
+    <div class="menu-nota">
+      <p>⭐ CONSULTAR POR COMBINACIÓN DE VARIEDADES</p>
+    </div>
+
+    <!-- CTA desde el menú -->
+    <div class="menu-cta">
+      <a href="https://wa.link/7zj1ar" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+          <path d="M12 0C5.373 0 0 5.373 0 12c0 2.121.554 4.112 1.523 5.837L.057 23.571l5.888-1.544A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 01-5.003-1.367l-.36-.213-3.495.917.933-3.41-.235-.373A9.797 9.797 0 012.182 12C2.182 6.565 6.565 2.182 12 2.182c5.434 0 9.818 4.383 9.818 9.818 0 5.434-4.384 9.818-9.818 9.818z"/>
+        </svg>
+        HACER PEDIDO POR WHATSAPP
+      </a>
+    </div>
+
+  </section>
+
+  <!-- ==========================================
+       DELIVERY BANNER
+  ========================================== -->
+  <section id="delivery">
+    <div class="delivery-inner">
+      <!-- Imagen scooter: si no carga, muestra emoji -->
+      <img
+        class="delivery-img"
+        src="/assets/img/delivery-scooter.png"
+        alt="Delivery en moto"
+        onerror="this.style.display='none'; document.getElementById('delivery-emoji').style.display='block';"
+      />
+      <div class="delivery-icon" id="delivery-emoji" style="display:none;">🛵</div>
+
+      <div class="delivery-texto">
+        <h3>DELIVERY SIN CARGO</h3>
+        <p>Pedí y recibilo en tu casa 🏠</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       FOOTER
+  ========================================== -->
+  <footer id="footer">
+    <div class="footer-logo">CATIPIZZA</div>
+
+    <div class="footer-contacto">
+      <!-- WhatsApp -->
+      <div class="footer-item">
+        <svg viewBox="0 0 24 24" fill="#25D366">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+          <path d="M12 0C5.373 0 0 5.373 0 12c0 2.121.554 4.112 1.523 5.837L.057 23.571l5.888-1.544A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 01-5.003-1.367l-.36-.213-3.495.917.933-3.41-.235-.373A9.797 9.797 0 012.182 12C2.182 6.565 6.565 2.182 12 2.182c5.434 0 9.818 4.383 9.818 9.818 0 5.434-4.384 9.818-9.818 9.818z"/>
+        </svg>
+        <span>
+          <a href="https://wa.link/7zj1ar" target="_blank" rel="noopener">3868 456-233</a>
+        </span>
+      </div>
+
+      <!-- Instagram -->
+      <div class="footer-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#FF9900" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r="0.8" fill="#FF9900" stroke="none"/>
+        </svg>
+        <span>
+          <a href="https://www.instagram.com/catipizza_ok/" target="_blank" rel="noopener">@catipizza_ok</a>
+        </span>
+      </div>
+    </div>
+
+    <!-- Botones sociales -->
+    <div class="footer-social">
+      <a class="btn-wa-footer" href="https://wa.link/7zj1ar" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px;">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+          <path d="M12 0C5.373 0 0 5.373 0 12c0 2.121.554 4.112 1.523 5.837L.057 23.571l5.888-1.544A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 01-5.003-1.367l-.36-.213-3.495.917.933-3.41-.235-.373A9.797 9.797 0 012.182 12C2.182 6.565 6.565 2.182 12 2.182c5.434 0 9.818 4.383 9.818 9.818 0 5.434-4.384 9.818-9.818 9.818z"/>
+        </svg>
+        WHATSAPP
+      </a>
+      <a class="btn-ig-footer" href="https://www.instagram.com/catipizza_ok/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r="0.8" fill="white" stroke="none"/>
+        </svg>
+        INSTAGRAM
+      </a>
+    </div>
+
+    <p class="footer-copy">© 2025 CATIPIZZA — Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- ==========================================
+       BOTÓN FLOTANTE WHATSAPP
+  ========================================== -->
+  <a id="fab-whatsapp" href="https://wa.link/7zj1ar" target="_blank" rel="noopener" aria-label="Hacer pedido por WhatsApp">
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+      <path d="M12 0C5.373 0 0 5.373 0 12c0 2.121.554 4.112 1.523 5.837L.057 23.571l5.888-1.544A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 01-5.003-1.367l-.36-.213-3.495.917.933-3.41-.235-.373A9.797 9.797 0 012.182 12C2.182 6.565 6.565 2.182 12 2.182c5.434 0 9.818 4.383 9.818 9.818 0 5.434-4.384 9.818-9.818 9.818z"/>
+    </svg>
+    Hacer Pedido
+  </a>
+
+  <!-- ==========================================
+       JAVASCRIPT
+  ========================================== -->
+  <script>
+    // ── Menú hamburguesa ──────────────────────
+    const hamburger  = document.getElementById('hamburger');
+    const navMobile  = document.getElementById('nav-mobile');
+
+    hamburger.addEventListener('click', () => {
+      const isOpen = navMobile.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+      hamburger.setAttribute('aria-expanded', isOpen);
+    });
+
+    // Cierra el nav al hacer click en un enlace
+    function closeNav() {
+      navMobile.classList.remove('open');
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', false);
+    }
+
+    // ── Header: sombra al hacer scroll ────────
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.style.boxShadow = window.scrollY > 10
+        ? '0 4px 20px rgba(0,0,0,0.8)'
+        : '0 2px 12px rgba(0,0,0,0.6)';
+    }, { passive: true });
+
+    // ── FAB: ocultar cuando se ve el footer ───
+    const fab    = document.getElementById('fab-whatsapp');
+    const footer = document.getElementById('footer');
+    const obs = new IntersectionObserver(([entry]) => {
+      fab.style.opacity    = entry.isIntersecting ? '0' : '1';
+      fab.style.pointerEvents = entry.isIntersecting ? 'none' : 'auto';
+    }, { threshold: 0.1 });
+    obs.observe(footer);
+  </script>
+
+</body>
+</html>
